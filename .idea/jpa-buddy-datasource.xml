@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="77ffd070-0d08-4efe-8dd1-5d7a8f4aaeb2" name="InventoryAPIv2" url="jdbc:jtds:sqlserver://z1343/inventory" driverClass="net.sourceforge.jtds.jdbc.Driver" />
+      <data-source id="e3412507-8b26-434a-8116-6e193923ef96" name="InventoryAPIv2State" url="jdbc:jtds:sqlserver://v-scripts1/inventory" driverClass="net.sourceforge.jtds.jdbc.Driver" />
+    </data-sources>
+  </component>
+</project>
