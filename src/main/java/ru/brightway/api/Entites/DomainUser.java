@@ -1,6 +1,7 @@
 package ru.brightway.api.Entites;
 
-import lombok.AllArgsConstructor;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,19 +9,19 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "domain_users")
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 public class DomainUser {
-    @Column(name = "SamAccountName", length = 50)
+    @Column(name = "samaccountname", length = 50)
     private String samAccountName;
 
-    @Column(name = "FirstName", nullable = false, length = 50)
+    @Column(name = "firstname", nullable = false, length = 50)
     private String firstName;
 
-    @Column(name = "LastName", nullable = false, length = 50)
+    @Column(name = "lastname", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "DisplayName", nullable = false, length = 100)
+    @Column(name = "displayname", nullable = false, length = 100)
     private String displayName;
 
     @Column(name = "name", length = 100)
@@ -30,7 +31,7 @@ public class DomainUser {
     private String mail;
 
     @Id
-    @Column(name = "Sid", length = 50)
+    @Column(name = "sid", length = 50)
     private String sid;
 
     @Column(name = "GUID", length = 50)
@@ -41,17 +42,17 @@ public class DomainUser {
     private String dn;
 
     @Lob
-    @Column(name = "MemberOf", nullable = false)
+    @Column(name = "memberof", nullable = false)
     private String memberOf;
 
     @Lob
-    @Column(name = "ParentContainer")
+    @Column(name = "parentcontainer")
     private String parentContainer;
 
     @Column(name = "telephone", nullable = false, length = 50)
     private String telephone;
 
-    @Column(name = "AccountIsEnabled")
+    @Column(name = "accountisenabled")
     private Boolean accountIsEnabled;
 
     @Column(name = "exchange")
@@ -77,16 +78,18 @@ public class DomainUser {
     @Column(name = "Title", length = 100)
     private String title;
 
-    @Column(name = "LastLogonTimestamp")
+    @Column(name = "Lastlogontimestamp")
     private Instant lastLogonTimestamp;
 
     @Column(name = "\"domain\"", length = 20)
     private String domain;
 
-    @Column(name = "whenCreated")
+    @Column(name = "whencreated")
     private Instant whenCreated;
 
     @Column(name = "collectedtime")
     private Instant collectedtime;
 
-    }
+
+
+}

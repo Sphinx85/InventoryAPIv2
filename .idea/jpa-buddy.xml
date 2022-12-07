@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JpaBuddyIdeaProjectConfig" migrateIndexesAndConstraints="true">
+  <component name="JpaBuddyIdeaProjectConfig" ddlActionDbType="mssql">
     <option name="defaultUnitInitialized" value="true" />
-    <option name="reverseEngineeringLastDbConnectionId" value="e3412507-8b26-434a-8116-6e193923ef96" />
+    <option name="reverseEngineeringLastDbConnectionId" value="99922048-8885-40ca-ab83-83655d591c68" />
     <option name="reLastEntityCreationPackage" value="src/main/java/ru/brightway/api/Entites" />
-    <reUseDbSnapshotConnections>
-      <dbConnection id="e3412507-8b26-434a-8116-6e193923ef96" />
-    </reUseDbSnapshotConnections>
     <option name="newEntityIdStrategy" />
   </component>
 </project>

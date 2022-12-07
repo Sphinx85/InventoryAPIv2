@@ -1,6 +1,6 @@
 package ru.brightway.api.Entites;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,14 +8,10 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "domain_computers")
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 public class DomainComputer {
     @Id
-    @Lob
-    @Column(name = "DN")
-    private String dn;
-
     @Column(name = "Name", length = 50)
     private String name;
 
@@ -24,17 +20,21 @@ public class DomainComputer {
     private String description;
 
     @Lob
-    @Column(name = "MemberOf")
+    @Column(name = "DN")
+    private String dn;
+
+    @Lob
+    @Column(name = "Memberof")
     private String memberOf;
 
     @Lob
-    @Column(name = "ParentContainer")
+    @Column(name = "Parentcontainer")
     private String parentContainer;
 
-    @Column(name = "LastLogonTimestamp")
+    @Column(name = "Lastlogontimestamp")
     private Instant lastLogonTimestamp;
 
-    @Column(name = "ManagedBy", length = 200)
+    @Column(name = "Managedby", length = 200)
     private String managedBy;
 
     @Column(name = "\"domain\"", length = 50)
