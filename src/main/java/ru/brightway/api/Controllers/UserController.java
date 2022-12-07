@@ -10,22 +10,27 @@ import ru.brightway.api.Entites.DomainUser;
 import ru.brightway.api.Services.ComputerService;
 import ru.brightway.api.Services.UserService;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-
+/**
+ * Controller domain users
+ */
 @RestController
 @Data
 @AllArgsConstructor
 @RequestMapping("/users")
-public class UserController {
 
+public class UserController {
+    /**
+     * Include service
+     */
     @Autowired
     private UserService userService;
-
+    /**
+     * Include service
+     */
     @Autowired
     private ComputerService computerService;
-
     /**
      * Get all users
      * @return Returns an array of users
@@ -34,7 +39,6 @@ public class UserController {
     List<DomainUser> getAllUsers(){
         return userService.findAll();
     }
-
     /**
      * Get indukern.local users
      * @return Returns an array of indukern domain users
@@ -101,12 +105,7 @@ public class UserController {
         return computerService.getUsersFromTerritory(computerService.findTerritory("zel"));
     }
 
-    @GetMapping("test")
-    Duration getTest(){
-        List<DomainUser> user = userService.findByLastName("Гузева");
 
-        return null;
-    }
 
     private List<DomainUser> activityList(boolean old){
         List<DomainUser> users = userService.findAll();

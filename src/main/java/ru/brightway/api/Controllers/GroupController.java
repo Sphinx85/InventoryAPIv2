@@ -10,13 +10,18 @@ import ru.brightway.api.Entites.DomainGroup;
 import ru.brightway.api.Interfaces.Group;
 
 import java.util.List;
-
+/**
+ * Controller domain groups
+ */
 @RestController
 @Data
 @AllArgsConstructor
 @RequestMapping("/group")
-public class GroupController {
 
+public class GroupController {
+    /**
+     * Include service
+     */
     @Autowired
     private Group group;
 

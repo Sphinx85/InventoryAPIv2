@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.brightway.api.Entites.DomainComputer;
 import ru.brightway.api.Services.ComputerService;
 import java.util.List;
-
+/**
+ * Controller
+ */
 @RestController
 @AllArgsConstructor
 @Data
 @RequestMapping("/computers")
-public class ComputerController {
 
+public class ComputerController {
+    /**
+     * Include service
+     */
     @Autowired
     private ComputerService computerService;
 
