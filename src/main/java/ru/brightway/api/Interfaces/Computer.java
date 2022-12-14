@@ -13,4 +13,6 @@ public interface Computer {
     List<DomainComputer> findByDomain(String domainName);
 
     List<DomainUser> getUsersFromTerritory(List<DomainComputer> computers);
+
+    List<DomainComputer> findByName(String name);
 }

@@ -47,6 +47,13 @@ public class ComputerService implements Computer {
     }
 
     @Override
+    public List<DomainComputer> findByName(String name) {
+        List<DomainComputer> computers = computerRepository.findAll();
+        computers.removeIf(computer -> !computer.getName().contains(name));
+        return computers;
+    }
+
+    @Override
     public List<DomainComputer> findAll() {
         return computerRepository.findAll();
     }

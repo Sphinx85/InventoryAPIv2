@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.brightway.api.Entites.DomainComputer;
 import ru.brightway.api.Entites.DomainUser;
 import ru.brightway.api.Interfaces.User;
 import ru.brightway.api.Repositories.ComputerRepository;
@@ -30,11 +29,6 @@ public class UserService implements User {
     }
 
     @Override
-    public List<DomainUser> findByLastName(String lastname) {
-        return userRepository.findByLastName(lastname);
-    }
-
-    @Override
     public List<DomainUser> findByDomain(String domainName) {
         return userRepository.findByDomain(domainName);
     }
@@ -47,16 +41,21 @@ public class UserService implements User {
     @Override
     public List<DomainUser> findByName(String name) {
         List<DomainUser> users = userRepository.findAll();
-        List<DomainComputer> computers = computerRepository.findAll();
-        if (name.contains("1") || name.contains("0")){
-            computers.removeIf(computer -> !computer.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)));
-        }
         users.removeIf(user -> !user.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)));
-        if (users.size() == 0) users = userRepository.findAll();
-        if (name.contains("1") || name.contains("0")) {
-            users.removeIf(user -> computers.stream().noneMatch(computer -> computer.getManagedBy().contains(user.getName())));
-        }
+        return removeOld(users);
+    }
 
+    private List<DomainUser> removeOld(List<DomainUser> users) {
+        users.removeIf(user -> !user.getAccountIsEnabled());
         return users;
     }
+
+    @Override
+    public List<DomainUser> findByPhone(String name) {
+        List<DomainUser> users = userRepository.findAll();
+        users.removeIf(user -> !user.getTelephone().contains(name));
+        return removeOld(users);
+    }
+
+
 }
