@@ -15,4 +15,6 @@ public interface User  {
     List<DomainUser> findByName(String name);
 
     List<DomainUser> findByPhone(String name);
+
+    List<DomainUser> findBySamAccountName(String name);
 }

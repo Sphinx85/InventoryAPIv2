@@ -57,5 +57,12 @@ public class UserService implements User {
         return removeOld(users);
     }
 
+    @Override
+    public List<DomainUser> findBySamAccountName(String name) {
+        List<DomainUser> users = userRepository.findAll();
+        users.removeIf(user -> !user.getSamAccountName().contains(name));
+        return removeOld(users);
+    }
+
 
 }

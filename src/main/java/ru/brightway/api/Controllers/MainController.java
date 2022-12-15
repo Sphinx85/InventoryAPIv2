@@ -14,6 +14,7 @@ import ru.brightway.api.Interfaces.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @AllArgsConstructor
@@ -41,10 +42,15 @@ public class MainController {
         List<DomainComputer> computers = computer.findByName(name);
 
         if (users.isEmpty()) users = user.findByPhone(name);
+        if (users.isEmpty()) users = user.findBySamAccountName(name);
         if (!users.isEmpty() || computers.isEmpty()){
             List<DomainComputer> computerList = computer.findAll();
             List<DomainUser> finalUsers = users;
             computerList.removeIf(computer -> finalUsers.stream().noneMatch(user -> computer.getManagedBy().contains(user.getName())));
+            if (computerList.isEmpty()) {
+                computerList = computer.findAll();
+                computerList.removeIf(computer -> !computer.getDescription().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)));
+            }
             computers.addAll(computerList);
         }
         if (users.isEmpty()) {
