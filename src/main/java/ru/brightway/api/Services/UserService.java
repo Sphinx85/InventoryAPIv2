@@ -9,13 +9,15 @@ import ru.brightway.api.Interfaces.User;
 import ru.brightway.api.Repositories.ComputerRepository;
 import ru.brightway.api.Repositories.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @AllArgsConstructor
 @Data
 public class UserService implements User {
+
+    static LocalDate date = LocalDate.now().minusMonths(1);
 
     @Autowired
     private UserRepository userRepository;
@@ -40,29 +42,23 @@ public class UserService implements User {
 
     @Override
     public List<DomainUser> findByName(String name) {
-        List<DomainUser> users = userRepository.findAll();
-        users.removeIf(user -> !user.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)));
-        return removeOld(users);
-    }
-
-    private List<DomainUser> removeOld(List<DomainUser> users) {
-        users.removeIf(user -> !user.getAccountIsEnabled());
-        return users;
+        return userRepository.findByNameContaining(name);
     }
 
     @Override
     public List<DomainUser> findByPhone(String name) {
-        List<DomainUser> users = userRepository.findAll();
-        users.removeIf(user -> !user.getTelephone().contains(name));
-        return removeOld(users);
+        return userRepository.findByTelephoneContainingAndAccountIsEnabled(name, true);
     }
 
     @Override
     public List<DomainUser> findBySamAccountName(String name) {
-        List<DomainUser> users = userRepository.findAll();
-        users.removeIf(user -> !user.getSamAccountName().contains(name));
-        return removeOld(users);
+        return userRepository.findBySamAccountNameContainingAndAccountIsEnabled(name,true);
     }
 
-
+    @Override
+    public List<DomainUser> findActive(boolean old) {
+        return old ?
+                userRepository.findByLastLogonTimestampAfter(date):
+                userRepository.findByLastLogonTimestampBefore(date);
+    }
 }

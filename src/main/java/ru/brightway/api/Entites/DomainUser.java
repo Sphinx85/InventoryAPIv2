@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "domain_users")
@@ -79,7 +80,7 @@ public class DomainUser {
     private String title;
 
     @Column(name = "Lastlogontimestamp")
-    private Instant lastLogonTimestamp;
+    private LocalDate lastLogonTimestamp;
 
     @Column(name = "\"domain\"", length = 20)
     private String domain;

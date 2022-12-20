@@ -9,7 +9,6 @@ public interface User  {
 
     List<DomainUser> findByDomain(String domainName);
 
-
     List<DomainUser> findDisable(boolean state);
 
     List<DomainUser> findByName(String name);
@@ -17,4 +16,6 @@ public interface User  {
     List<DomainUser> findByPhone(String name);
 
     List<DomainUser> findBySamAccountName(String name);
+
+    List<DomainUser> findActive(boolean old);
 }

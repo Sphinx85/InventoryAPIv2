@@ -11,6 +11,7 @@ import ru.brightway.api.Repositories.ComputerRepository;
 import ru.brightway.api.Repositories.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,32 +26,39 @@ public class ComputerService implements Computer {
 
     @Override
     public List<DomainComputer> findTerritory(String territory) {
-        List<DomainComputer> computers = computerRepository.findAll();
-
-        computers.removeIf(comp -> comp.getIp().equals(""));
-
         switch (territory) {
-            case "city" -> computers.removeIf(comp -> !comp.getIp().contains("10.100"));
-            case "apr" -> computers.removeIf(comp -> !comp.getIp().contains("192.168"));
-            case "zel" -> computers.removeIf(comp -> !comp.getIp().contains("10.102") && !comp.getIp().contains("10.103"));
-            case "dolg" -> computers.removeIf(comp -> !comp.getIp().contains("10.105"));
+            case "city" -> {
+                return computerRepository.findByIpContaining("10.100");
+            }
+            case "apr" -> {
+                return computerRepository.findByIpContaining("192.168");
+            }
+            case "zel" ->{
+                return computerRepository.findByIpContainingOrIpContaining("10.102","10.103");
+            }
+            case "dolg" -> {
+                return computerRepository.findByIpContaining("10.105");
+            }
+            default -> {
+                return null;
+            }
         }
-
-       return computers;
     }
 
     @Override
     public List<DomainUser> getUsersFromTerritory(List<DomainComputer> computers){
-        List<DomainUser> users = userRepository.findAll();
-        users.removeIf(user -> computers.stream().noneMatch(computer -> computer.getManagedBy().contains(user.getName())));
-        return removeDeleted(users);
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> computers
+                        .stream()
+                        .anyMatch(computer -> computer.getManagedBy().contains(user.getName())))
+                .filter(DomainUser::getAccountIsEnabled)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<DomainComputer> findByName(String name) {
-        List<DomainComputer> computers = computerRepository.findAll();
-        computers.removeIf(computer -> !computer.getName().contains(name));
-        return computers;
+        return computerRepository.findByNameContaining(name);
     }
 
     @Override
@@ -63,9 +71,4 @@ public class ComputerService implements Computer {
         return computerRepository.findByDomain(domainName);
     }
 
-    private List<DomainUser> removeDeleted (List<DomainUser> users){
-        users.removeIf(user -> !user.getAccountIsEnabled());
-        System.out.println("users without inactive " + users.size());
-        return users;
-    }
 }

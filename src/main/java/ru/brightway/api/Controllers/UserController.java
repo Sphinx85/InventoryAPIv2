@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.brightway.api.Entites.DomainUser;
-import ru.brightway.api.Services.ComputerService;
-import ru.brightway.api.Services.UserService;
+import ru.brightway.api.Interfaces.Computer;
+import ru.brightway.api.Interfaces.User;
 
-import java.time.Instant;
 import java.util.List;
+
 /**
  * Controller domain users
  */
@@ -25,19 +25,19 @@ public class UserController {
      * Include service
      */
     @Autowired
-    private UserService userService;
+    private User user;
     /**
      * Include service
      */
     @Autowired
-    private ComputerService computerService;
+    private Computer computer;
     /**
      * Get all users
      * @return Returns an array of users
      */
     @GetMapping("/all")
     List<DomainUser> getAllUsers(){
-        return userService.findAll();
+        return user.findAll();
     }
     /**
      * Get indukern.local users
@@ -45,7 +45,7 @@ public class UserController {
      */
     @GetMapping("/indukern")
     List<DomainUser> getIndukern(){
-        return userService.findByDomain("indukern.local");
+        return user.findByDomain("indukern.local");
     }
     /**
      * Get velpharm.local users
@@ -53,7 +53,7 @@ public class UserController {
      */
     @GetMapping("/velpharm")
     List<DomainUser> getVelpharm(){
-        return userService.findByDomain("velpharm.local");
+        return user.findByDomain("velpharm.local");
     }
     /**
      * Get active users
@@ -61,7 +61,7 @@ public class UserController {
      */
     @GetMapping("active")
     List<DomainUser> getActivity(){
-        return activityList(true);
+        return user.findActive(true);
     }
     /**
      * Get inactive users
@@ -69,7 +69,7 @@ public class UserController {
      */
     @GetMapping("inactive")
     List<DomainUser> getNonActivity(){
-        return activityList(false);
+        return user.findActive(false);
     }
     /**
      * Get disabled users
@@ -77,16 +77,15 @@ public class UserController {
      */
     @GetMapping("disabled")
     List<DomainUser> getDisabled(){
-        return userService.findDisable(false);
+        return user.findDisable(false);
     }
-
     /**
      * Get City users
      * @return Returns an array of users of the City territory
      */
     @GetMapping("city")
     List<DomainUser> getCity(){
-        return computerService.getUsersFromTerritory(computerService.findTerritory("city"));
+        return computer.getUsersFromTerritory(computer.findTerritory("city"));
     }
     /**
      * Get Aprelevka users
@@ -94,7 +93,7 @@ public class UserController {
      */
     @GetMapping("apr")
     List<DomainUser> getApr(){
-        return computerService.getUsersFromTerritory(computerService.findTerritory("apr"));
+        return computer.getUsersFromTerritory(computer.findTerritory("apr"));
     }
     /**
      * Get Zelenograd users
@@ -102,16 +101,7 @@ public class UserController {
      */
     @GetMapping("zel")
     List<DomainUser> getZel(){
-        return computerService.getUsersFromTerritory(computerService.findTerritory("zel"));
+        return computer.getUsersFromTerritory(computer.findTerritory("zel"));
     }
 
-
-
-    private List<DomainUser> activityList(boolean old){
-        List<DomainUser> users = userService.findAll();
-        users.removeIf(old ?
-                (user -> 2592000 < Instant.now().getEpochSecond() - user.getLastLogonTimestamp().getEpochSecond()) :
-                (user -> 2592000 > Instant.now().getEpochSecond() - user.getLastLogonTimestamp().getEpochSecond()));
-        return users;
-    }
 }
